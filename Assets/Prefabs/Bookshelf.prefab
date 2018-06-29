@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65551955304973210}
   - component: {fileID: 23652739744327972}
   m_Layer: 0
-  m_Name: Book1 (3)
+  m_Name: Book(3)
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 65158621776164654}
   - component: {fileID: 23491614765668826}
   m_Layer: 0
-  m_Name: Book1 (1)
+  m_Name: Book(1)
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063070709432498}
   m_Layer: 0
-  m_Name: Bookshelf1 (1)
+  m_Name: Bookshelf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 65405456211876130}
   - component: {fileID: 23396995035594546}
   m_Layer: 0
-  m_Name: Book1 (2)
+  m_Name: Book(2)
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 65839042603483578}
   - component: {fileID: 23556100029171036}
   m_Layer: 0
-  m_Name: Book1 (5)
+  m_Name: Book(5)
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 65200945587849494}
   - component: {fileID: 23482925795871230}
   m_Layer: 0
-  m_Name: Book1 (4)
+  m_Name: Book(4)
   m_TagString: Book
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
