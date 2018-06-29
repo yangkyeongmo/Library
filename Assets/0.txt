@@ -1,0 +1,4 @@
+Welcome to library.
+
+How to use: Click on any 'book' you want, and click right mouse button.
+Then bookreader will open. You can turn it off by clicking again.
