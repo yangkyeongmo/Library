@@ -69,9 +69,10 @@ public class AllocateText : MonoBehaviour {
             }
             else
             {
-                string txt = textlist[i].ToString();
-                if (txt != null)
+                if (textlist.Count > i)
                 {
+                    Debug.Log("textlist[" + i + "] exist");
+                    string txt = textlist[i].ToString();
                     if (bookTextMesh == null)
                     {
                         Debug.Log(i + "th Book doesn't exist");
@@ -86,8 +87,9 @@ public class AllocateText : MonoBehaviour {
                     Debug.Log(i + "th Book's title: " + title.text);
                     Debug.Log(i + "th Book's text: \n" + bookTextMesh.text);
                 }
-                else if (txt == null)
+                else
                 {
+                    Debug.Log(i + "th Book Deosnt exist");
                     list[i].GetComponentInChildren<TextMesh>(true).text = "Book " + list[i].transform.Find("Title").GetComponent<TextMesh>().text + "doesn't exist";
                     list[i].transform.Find("Title").GetComponent<TextMesh>().text = "EMPTY";
                 }
