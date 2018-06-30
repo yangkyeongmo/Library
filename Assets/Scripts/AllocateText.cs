@@ -11,9 +11,10 @@ public class AllocateText : MonoBehaviour {
     private List<Object> textlist;
     private GameObject[] bookShelf;
     private List<GameObject[]> bookShelfList;
+    private TextMesh bookTextMesh;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         bookShelf = new GameObject[5];
         bookShelfList = new List<GameObject[]>();
@@ -54,13 +55,13 @@ public class AllocateText : MonoBehaviour {
 
         for(int i = 0; i < list.Count; i++)
         {
-            Debug.Log(i + " : " + list[i].gameObject.name);
+            Debug.Log(i + " : " + list[i].gameObject.name + ", Position: " +list[i].gameObject.transform.position);
         }
 
         //Allocate text to book
         for(int i=0; i < list.Count; i++)
         {
-            TextMesh bookTextMesh = list[i].transform.Find("BookText").GetComponent<TextMesh>();
+            bookTextMesh = list[i].transform.Find("BookText").GetComponent<TextMesh>();
 
             string txt = textlist[i].ToString();
             
