@@ -15,7 +15,7 @@ public class OpeningBook : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        scrollView = whiteboard.transform.Find("ScrollView").GetComponent<ScrollRect>();
+        //scrollView = whiteboard.transform.Find("ScrollView").GetComponent<ScrollRect>();
         txt = whiteboard.transform.Find("ReaderText").GetComponent<Text>();
         whiteboard.SetActive(false);
         Debug.Log(txt.text);

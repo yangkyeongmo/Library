@@ -21,6 +21,7 @@ public class AllocateText : MonoBehaviour {
         textlist.AddRange(Resources.LoadAll(("Texts"), typeof(TextAsset)));
         //list = new List<GameObject>();
         list = new List<GameObject>(GameObject.FindGameObjectsWithTag("Book"));
+        Debug.Log("Total Books: " + list.Count);
         
         if (textlist.Count > list.Count)
         {
@@ -41,13 +42,14 @@ public class AllocateText : MonoBehaviour {
             return 0;
         });
         //CreateBooks();
+        /*
         for(int i = 0; i<bookShelfList.Count; i++)
         {
             for(int j= 0; j < 5; j++)
             {
                 list[i * 5 + j] = bookShelfList[i][j];
             }
-        }
+        }*/
 
 
         for(int i = 0; i < list.Count; i++)
