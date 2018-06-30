@@ -12,6 +12,7 @@ public class AllocateText : MonoBehaviour {
     private GameObject[] bookShelf;
     private List<GameObject[]> bookShelfList;
     private TextMesh bookTextMesh;
+    private TextMesh title;
 
     // Use this for initialization
     void Start ()
@@ -62,22 +63,34 @@ public class AllocateText : MonoBehaviour {
         for(int i=0; i < list.Count; i++)
         {
             bookTextMesh = list[i].transform.Find("BookText").GetComponent<TextMesh>();
-
-            string txt = textlist[i].ToString();
-            
-            if (txt != null)
+            if(bookTextMesh == null)
             {
-                if (bookTextMesh == null)
-                    Debug.Log(i + "th Book doesn't exist");
-                else if (bookTextMesh != null)
-                    bookTextMesh.text = txt;
-
-                list[i].transform.Find("Title").GetComponent<TextMesh>().text = textlist[i].name;
-                Debug.Log(bookTextMesh.text);
+                Debug.Log("ERROR: NO TEXTMESH ON BOOK");
             }
-            else if (txt == null)
+            else
             {
-                list[i].GetComponentInChildren<TextMesh>(true).text = "Book " + list[i].transform.Find("Title").GetComponent<TextMesh>().text + "doesn't exist";
+                string txt = textlist[i].ToString();
+                if (txt != null)
+                {
+                    if (bookTextMesh == null)
+                    {
+                        Debug.Log(i + "th Book doesn't exist");
+                    }
+                    else
+                    {
+                        bookTextMesh.text = txt;
+                    }
+                    title = list[i].transform.Find("Title").GetComponent<TextMesh>();
+                    
+                    title.text = textlist[i].name;
+                    Debug.Log(i + "th Book's title: " + title.text);
+                    Debug.Log(i + "th Book's text: \n" + bookTextMesh.text);
+                }
+                else if (txt == null)
+                {
+                    list[i].GetComponentInChildren<TextMesh>(true).text = "Book " + list[i].transform.Find("Title").GetComponent<TextMesh>().text + "doesn't exist";
+                    list[i].transform.Find("Title").GetComponent<TextMesh>().text = "EMPTY";
+                }
             }
         }
 	}
