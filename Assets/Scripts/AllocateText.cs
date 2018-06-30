@@ -39,8 +39,13 @@ public class AllocateText : MonoBehaviour {
         {
             if (A.transform.position.x > B.transform.position.x) return 1;
             else if(A.transform.position.x < B.transform.position.x) return -1;
-            if (A.transform.position.y > B.transform.position.y) return 1;
-            else if(A.transform.position.y < B.transform.position.y) return -1;
+            if (A.transform.position.z > B.transform.position.z) return 1;
+            else if (A.transform.position.z < B.transform.position.z) return -1;
+            if(A.transform.position.x == B.transform.position.x && A.transform.position.z == B.transform.position.z)
+            {
+                if (A.transform.position.y > B.transform.position.y) return 1;
+                else if (A.transform.position.y < B.transform.position.y) return -1;
+            }
             return 0;
         });
         //CreateBooks();
