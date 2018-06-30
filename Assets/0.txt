@@ -2,3 +2,5 @@ Welcome to library.
 
 How to use: Click on any 'book' you want, and click right mouse button.
 Then bookreader will open. You can turn it off by clicking again.
+
+Hint: For saving texts, save with UNICODE or UTF-8, just make sure it's not encoded by ANSI. If not, unity won't show the contents.
