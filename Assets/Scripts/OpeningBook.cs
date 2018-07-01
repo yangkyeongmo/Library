@@ -17,7 +17,7 @@ public class OpeningBook : MonoBehaviour {
 	void Start () {
         //scrollView = whiteboard.transform.Find("ScrollView").GetComponent<ScrollRect>();
         //txt = whiteboard.transform.Find("ReaderText").GetComponent<Text>();
-        txt = whiteboard.transform.Find("BookReader").Find("ReaderText").GetComponent<Text>();
+        txt = whiteboard.transform.Find("BookReader").GetChild(0).GetChild(0).GetComponent<Text>(); //get 'ReaderText's text component
         whiteboard.SetActive(false);
         Debug.Log(txt.text);
     }
