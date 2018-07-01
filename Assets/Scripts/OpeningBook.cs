@@ -44,8 +44,7 @@ public class OpeningBook : MonoBehaviour {
             if (hitInfo.transform.tag == "Book")
             {
                 TextMesh book_text = hitInfo.transform.Find("BookText").GetComponent<TextMesh>();
-                txt.text =
-                    book_text.text;
+                txt.text = book_text.text;
             }
         }
     }

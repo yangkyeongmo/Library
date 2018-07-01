@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class AllocateText : MonoBehaviour {
 
-    public GameObject book;
+    //public GameObject book;
 
     private List<GameObject> list;
     private List<Object> textlist;
@@ -102,6 +102,7 @@ public class AllocateText : MonoBehaviour {
         }
 	}
 
+    /*
     void CreateBooks()
     {
         if(textlist.Count < 6)
@@ -141,9 +142,9 @@ public class AllocateText : MonoBehaviour {
                         temp_bookList[k] = temp_bookList[k + 5];
                     else if (temp_bookList == null)
                         temp_bookList[k] = null;
-                }*/
+                }
             }
-        }
+        }*/
     }
 	
 	// Update is called once per frame
