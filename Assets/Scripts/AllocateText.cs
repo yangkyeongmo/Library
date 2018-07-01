@@ -144,8 +144,8 @@ public class AllocateText : MonoBehaviour {
                         temp_bookList[k] = null;
                 }
             }
-        }*/
-    }
+        }
+    }*/
 	
 	// Update is called once per frame
 	void Update () {
