@@ -53,7 +53,7 @@ public class OpeningBook : MonoBehaviour {
 
     void EnlargeContent()
     {
-        contentRect.sizeDelta = new Vector2(750.0f, txt.preferredHeight + 30.0f);
+        contentRect.sizeDelta = new Vector2(txt.transform.parent.parent.GetComponent<RectTransform>().rect.width - 15.0f, txt.preferredHeight + 30.0f);
     }
     /*
     void ScrollText()
