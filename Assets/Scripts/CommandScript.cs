@@ -7,9 +7,9 @@ public class CommandScript : MonoBehaviour {
 
     public GameObject commandLine;
     public Text commandText;
-    public Camera firstPersonCam;
+    public UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsCtrl;
 
-    private bool isFrozen = false;
+    private bool isFPSDeactivated = false;
 
 	// Use this for initialization
 	void Start () {
@@ -22,16 +22,15 @@ public class CommandScript : MonoBehaviour {
             if (!commandLine.activeSelf)
             {
                 commandLine.SetActive(true);
-                DealWithCommand();
             }
             else
             {
                 commandLine.SetActive(false);
             }
         }
-        if (isFrozen)
+        if (commandLine.activeSelf)
         {
-            FreezeScreen();
+            DealWithCommand();
         }
 	}
 
@@ -49,14 +48,15 @@ public class CommandScript : MonoBehaviour {
             else if ((c == '\n') || (c == '\r')) // enter/return
             {
                 print("User entered their name: " + commandText.text);
-                if(commandText.text == "freeze screen")
+                if(commandText.text == "deactivate FPS")
                 {
-                    isFrozen = true;
+                    fpsCtrl.enabled = false;
                 }
-                else if(commandText.text == "defrost")
+                else if(commandText.text == "activate FPS")
                 {
-                    isFrozen = false;
+                    fpsCtrl.enabled = true;
                 }
+                commandText.text = "";
             }
             else
             {
@@ -65,11 +65,8 @@ public class CommandScript : MonoBehaviour {
         }
     }
 
-    void FreezeScreen()
+    void DeactivateFPS()
     {
-        Vector3 firstPosition = firstPersonCam.transform.position;
-        Quaternion firstRotation = firstPersonCam.transform.rotation;
-        firstPersonCam.transform.position = firstPosition;
-        firstPersonCam.transform.rotation = firstRotation;
+        
     }
 }
