@@ -18,7 +18,7 @@ public class CommandScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKey(KeyCode.F11)){
+        if (Input.GetKeyDown(KeyCode.F11)){
             if (!commandLine.activeSelf)
             {
                 commandLine.SetActive(true);
