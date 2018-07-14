@@ -10,10 +10,12 @@ public class CommandScript : MonoBehaviour {
     public UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsCtrl;
 
     private bool isFPSDeactivated = false;
+    private bool isBlinkCoroutineStarted = false;
+    private GameObject colon;
 
 	// Use this for initialization
 	void Start () {
-
+        colon = commandLine.transform.Find("BlinkColon").gameObject;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +32,10 @@ public class CommandScript : MonoBehaviour {
         }
         if (commandLine.activeSelf)
         {
+            if (!isBlinkCoroutineStarted)
+            {
+                StartCoroutine("Blink");
+            }
             DealWithCommand();
         }
 	}
@@ -65,8 +71,14 @@ public class CommandScript : MonoBehaviour {
         }
     }
 
-    void DeactivateFPS()
+    IEnumerator Blink()
     {
-        
+        isBlinkCoroutineStarted = true;
+        print("Blinking");
+        if (colon.activeSelf) { colon.SetActive(false); }
+        else { colon.SetActive(true); }
+        yield return new WaitForSeconds(1.0f);
+        StopCoroutine("Blink");
+        isBlinkCoroutineStarted = false;
     }
 }
