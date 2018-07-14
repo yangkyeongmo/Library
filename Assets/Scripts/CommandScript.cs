@@ -7,10 +7,13 @@ public class CommandScript : MonoBehaviour {
 
     public GameObject commandLine;
     public Text commandText;
+    public Camera firstPersonCam;
+
+    private bool isFrozen = false;
 
 	// Use this for initialization
 	void Start () {
-        
+
 	}
 	
 	// Update is called once per frame
@@ -25,6 +28,10 @@ public class CommandScript : MonoBehaviour {
             {
                 commandLine.SetActive(false);
             }
+        }
+        if (isFrozen)
+        {
+            FreezeScreen();
         }
 	}
 
@@ -44,7 +51,11 @@ public class CommandScript : MonoBehaviour {
                 print("User entered their name: " + commandText.text);
                 if(commandText.text == "freeze screen")
                 {
-                    FreezeScreen();
+                    isFrozen = true;
+                }
+                else if(commandText.text == "defrost")
+                {
+                    isFrozen = false;
                 }
             }
             else
@@ -52,5 +63,13 @@ public class CommandScript : MonoBehaviour {
                 commandText.text += c;
             }
         }
+    }
+
+    void FreezeScreen()
+    {
+        Vector3 firstPosition = firstPersonCam.transform.position;
+        Quaternion firstRotation = firstPersonCam.transform.rotation;
+        firstPersonCam.transform.position = firstPosition;
+        firstPersonCam.transform.rotation = firstRotation;
     }
 }
