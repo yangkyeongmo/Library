@@ -30,6 +30,27 @@ public class CommandScript : MonoBehaviour {
 
     void DealWithCommand()
     {
-
+        foreach (char c in Input.inputString)
+        {
+            if (c == '\b') // has backspace/delete been pressed?
+            {
+                if (commandText.text.Length != 0)
+                {
+                    commandText.text = commandText.text.Substring(0, commandText.text.Length - 1);
+                }
+            }
+            else if ((c == '\n') || (c == '\r')) // enter/return
+            {
+                print("User entered their name: " + commandText.text);
+                if(commandText.text == "freeze screen")
+                {
+                    FreezeScreen();
+                }
+            }
+            else
+            {
+                commandText.text += c;
+            }
+        }
     }
 }
