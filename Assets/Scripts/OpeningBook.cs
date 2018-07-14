@@ -4,9 +4,9 @@ using UnityEngine.UI;
 public class OpeningBook : MonoBehaviour {
 
     public GameObject whiteboard;
-
-    private ScrollRect scrollView;
+    
     private RectTransform contentRect;
+    private Scrollbar sBar;
     private Ray ray;
     private RaycastHit hitInfo;
     private bool hit;
@@ -14,10 +14,9 @@ public class OpeningBook : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //scrollView = whiteboard.transform.Find("ScrollView").GetComponent<ScrollRect>();
-        //txt = whiteboard.transform.Find("ReaderText").GetComponent<Text>();
         txt = whiteboard.transform.Find("BookReader").Find("Content").Find("ReaderText").GetComponent<Text>(); //get 'ReaderText's text component
         contentRect = whiteboard.transform.Find("BookReader").Find("Content").GetComponent<RectTransform>();
+        sBar = whiteboard.transform.Find("Scrollbar Vertical").GetComponent<Scrollbar>();
         whiteboard.SetActive(false);
         Debug.Log(txt.text);
     }
@@ -34,8 +33,8 @@ public class OpeningBook : MonoBehaviour {
 
     void GetText()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo = new RaycastHit();
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        hitInfo = new RaycastHit();
 
         hit = Physics.Raycast(ray, out hitInfo);
 
@@ -46,7 +45,8 @@ public class OpeningBook : MonoBehaviour {
             {
                 TextMesh book_text = hitInfo.transform.Find("BookText").GetComponent<TextMesh>();
                 txt.text = book_text.text;
-                EnlargeContent();
+                EnlargeContent();                       //Resize content
+                sBar.value = 1.0f;                      //Reset scrollbar value
             }
         }
     }
