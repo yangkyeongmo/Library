@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45140207, g: 0.5008963, b: 0.5723254, a: 1}
+  m_IndirectSpecularColor: {r: 0.45140243, g: 0.5008967, b: 0.5723256, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -158,7 +158,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d9118644cf18d114abae307878884709, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4668,7 +4668,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d9118644cf18d114abae307878884709, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5789,8 +5789,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1999114746}
   m_HandleRect: {fileID: 1999114745}
   m_Direction: 2
-  m_Value: 0.00000006888843
-  m_Size: 0
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6773,7 +6773,7 @@ TextMesh:
   m_FontSize: 0
   m_FontStyle: 0
   m_RichText: 1
-  m_Font: {fileID: 12800000, guid: c1bf03e8b11673547861b358d15367e5, type: 3}
+  m_Font: {fileID: 12800000, guid: b45d044174e61af4689c8858e88e8983, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
@@ -6904,8 +6904,8 @@ MonoBehaviour:
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 6.32
+  m_DecelerationRate: 0
+  m_ScrollSensitivity: 12.5
   m_Viewport: {fileID: 585043882}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1373104876}
@@ -6944,7 +6944,7 @@ Transform:
   m_GameObject: {fileID: 1671877763}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 20, z: 14.5}
-  m_LocalScale: {x: 30, y: 0.1, z: 20}
+  m_LocalScale: {x: 30, y: 0.1, z: 27.58}
   m_Children: []
   m_Father: {fileID: 855075594}
   m_RootOrder: 7
@@ -6963,7 +6963,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d9118644cf18d114abae307878884709, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7699,7 +7699,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 442.99997}
+  m_AnchoredPosition: {x: 0, y: 0.09417781}
   m_SizeDelta: {x: 750, y: 443}
   m_Pivot: {x: 0, y: 1}
 --- !u!4 &1914510446 stripped
@@ -7959,6 +7959,17 @@ Prefab:
       propertyPath: m_Alignment
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 23988159989091294, guid: 1e9f9851aeea0b3449d3068c4838bb04,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 36b32c440ba3f044f88affe209d50e12, type: 2}
+    - target: {fileID: 102072854982852900, guid: 1e9f9851aeea0b3449d3068c4838bb04,
+        type: 2}
+      propertyPath: m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b45d044174e61af4689c8858e88e8983,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1e9f9851aeea0b3449d3068c4838bb04, type: 2}
   m_IsPrefabParent: 0
