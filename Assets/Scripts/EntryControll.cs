@@ -11,7 +11,7 @@ public class EntryControll : MonoBehaviour {
     //private GameObject passwordBox;
     private TextMesh currentPassword;
     private GameObject dialogueBubble;
-    private GameObject entryBox;
+    //private GameObject entryBox;
     private TextMesh dialogue;
     private bool correct;
     private string userInput = "";
@@ -20,7 +20,7 @@ public class EntryControll : MonoBehaviour {
     private CloseGate cg;
 
     private bool isOpening = false;
-    private bool isClosing = false;
+    //private bool isClosing = false;
     private bool isInTheBox = false;
 
     OpeningBook ob;
@@ -33,7 +33,7 @@ public class EntryControll : MonoBehaviour {
         //passwordBox = GameObject.Find("PasswordBox");
         currentPassword = GameObject.Find("CurrentPassword").GetComponent<TextMesh>();
         dialogueBubble = GameObject.Find("dialoguebubble");
-        entryBox = GameObject.Find("EntryBox");
+        //entryBox = GameObject.Find("EntryBox");
         door_l = GameObject.Find("EntryFrontWall_L");
         door_r = GameObject.Find("EntryFrontWall_R");
 
