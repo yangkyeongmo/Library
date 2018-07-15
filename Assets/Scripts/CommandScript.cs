@@ -8,8 +8,7 @@ public class CommandScript : MonoBehaviour {
     public GameObject commandLine;
     public Text commandText;
     public UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsCtrl;
-
-    private bool isFPSDeactivated = false;
+    
     private bool isBlinkCoroutineStarted = false;
     private GameObject colon;
 
