@@ -8,16 +8,16 @@ public class AllocateText : MonoBehaviour {
 
     private List<GameObject> list;
     private List<Object> textlist;
-    private GameObject[] bookShelf;
-    private List<GameObject[]> bookShelfList;
+    //private GameObject[] bookShelf;
+    //private List<GameObject[]> bookShelfList;
     private TextMesh bookTextMesh;
     private TextMesh title;
 
     // Use this for initialization
     void Start ()
     {
-        bookShelf = new GameObject[5];
-        bookShelfList = new List<GameObject[]>();
+        //bookShelf = new GameObject[5];
+        //bookShelfList = new List<GameObject[]>();
         textlist = new List<Object>();
         textlist.AddRange(Resources.LoadAll(("Texts"), typeof(TextAsset)));
         //list = new List<GameObject>();
@@ -150,4 +150,14 @@ public class AllocateText : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public List<string> GetTextList()
+    {
+        List<string> titlelist = new List<string>();
+        for(int i=0; i<textlist.Count; i++)
+        {
+            titlelist[i] = textlist[i].name;
+        }
+        return titlelist;
+    }
 }
