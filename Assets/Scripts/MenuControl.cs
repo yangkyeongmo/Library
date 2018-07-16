@@ -38,11 +38,13 @@ public class MenuControl : MonoBehaviour {
         {
             if (commandLine.activeSelf)
             {
-                //rt.position = new Vector2(rt.rect.x, clrt.rect.height / 2 + clrt.rect.y + rt.rect.height / 2);
+                print("menu arise");
+                rt.position = new Vector2(rt.position.x, clrt.rect.height / 2 + clrt.position.y + rt.rect.height / 2);
             }
             else
             {
-                //rt.position = new Vector2(rt.rect.x, rt.rect.height / 2);
+                print("menu fall");
+                rt.position = new Vector2(rt.position.x, rt.rect.height / 2);
             }
         }
 	}
