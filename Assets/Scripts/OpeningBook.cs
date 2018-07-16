@@ -51,18 +51,10 @@ public class OpeningBook : MonoBehaviour {
         }
     }
 
-    void EnlargeContent()
+    public void EnlargeContent()
     {
-        contentRect.sizeDelta = new Vector2(txt.transform.parent.parent.GetComponent<RectTransform>().rect.width - 15.0f, txt.preferredHeight + 30.0f);
+        contentRect.sizeDelta = new Vector2(txt.transform.parent.parent.parent.GetComponent<RectTransform>().rect.width - 15.0f, txt.preferredHeight + 30.0f);
     }
-    /*
-    void ScrollText()
-    {
-        if(Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            scrollView.verticalNormalizedPosition += Input.GetAxis("Mouse ScrollWheel");
-        }
-    }*/
 
     public RaycastHit GethitInfo()
     {

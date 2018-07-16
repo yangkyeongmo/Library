@@ -56,5 +56,6 @@ public class MenuControl : MonoBehaviour {
         {
             readerTxt.text += i + ": " + titlelist[i] + "\n";
         }
+        GetComponent<OpeningBook>().EnlargeContent();
     }
 }
