@@ -156,7 +156,7 @@ public class AllocateText : MonoBehaviour {
         List<string> titlelist = new List<string>();
         for(int i=0; i<textlist.Count; i++)
         {
-            titlelist[i] = textlist[i].name;
+            titlelist.Add(textlist[i].name);
         }
         return titlelist;
     }

@@ -78,7 +78,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_cursorIsLocked = false;
             }
-            else if(Input.GetMouseButtonUp(0))
+            else if(Input.GetMouseButtonUp(2))
             {
                 m_cursorIsLocked = true;
             }

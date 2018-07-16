@@ -49,6 +49,7 @@ public class MenuControl : MonoBehaviour {
 
     public void ShowBookList()
     {
+        print("BookList Button Is Pushed");
         List<string> titlelist = GameObject.Find("GameController").GetComponent<AllocateText>().GetTextList();
         readerTxt.text = "";
         for(int i=0; i < titlelist.Count; i++)
