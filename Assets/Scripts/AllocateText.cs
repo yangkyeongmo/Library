@@ -6,8 +6,8 @@ public class AllocateText : MonoBehaviour {
 
     private List<GameObject> booklist;
     private List<Object> textlist;
-    private TextMesh bookTextMesh;
     private TextMesh title;
+    private Object property;
     private string[][] propertyArr;
 
     // Use this for initialization
@@ -16,6 +16,7 @@ public class AllocateText : MonoBehaviour {
         textlist = new List<Object>();
         textlist.AddRange(Resources.LoadAll(("Texts"), typeof(TextAsset)));                                                 //list of texts, in "Resources/Texts"
         booklist = new List<GameObject>(GameObject.FindGameObjectsWithTag("Book"));                                         //list of books, GameObject
+        property = Resources.Load("property.txt", typeof(TextAsset));                                                       //property.txt
         propertyArr = new string[textlist.Count][];                                                                         //2D array composed of text's name and its tag
 
         Debug.Log("Total Books: " + booklist.Count);
@@ -54,18 +55,13 @@ public class AllocateText : MonoBehaviour {
 
         Allocation();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void Allocation()
     {
         //Allocate text to book
         for (int i = 0; i < booklist.Count; i++)
         {
-            bookTextMesh = booklist[i].transform.Find("BookText").GetComponent<TextMesh>();
+            TextMesh bookTextMesh = booklist[i].transform.Find("BookText").GetComponent<TextMesh>();
             if (bookTextMesh == null)
             {
                 Debug.Log("ERROR: NO TEXTMESH ON BOOK" + i);
@@ -100,6 +96,11 @@ public class AllocateText : MonoBehaviour {
         }
     }
 
+    // Update is called once per frame
+    void Update () {
+		
+	}
+    
     public List<string> GetTextList()
     {
         List<string> titlelist = new List<string>();
