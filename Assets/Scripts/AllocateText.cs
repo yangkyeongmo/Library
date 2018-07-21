@@ -7,7 +7,7 @@ using UnityEngine;
 public class AllocateText : MonoBehaviour {
 
     private List<GameObject> booklist;
-    private List<Object> textlist;
+    private List<TextAsset> textlist;
     private TextMesh title;
     private FileInfo info;
     private string[][] propertyArr;
@@ -15,8 +15,8 @@ public class AllocateText : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        textlist = new List<Object>();
-        textlist.AddRange(Resources.LoadAll(("Texts"), typeof(TextAsset)));                                                 //list of texts, in "Resources/Texts"
+        textlist = new List<TextAsset>();
+        textlist.AddRange((TextAsset[])Resources.LoadAll(("Texts")));                                                       //list of texts, in "Resources/Texts"
         booklist = new List<GameObject>(GameObject.FindGameObjectsWithTag("Book"));                                         //list of books, GameObject
         info = new FileInfo("property.txt");                                                                                //property.txt
         propertyArr = new string[textlist.Count][];                                                                         //2D array composed of text's name and its tag
