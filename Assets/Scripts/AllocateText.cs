@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System;
 using UnityEngine;
 
 public class AllocateText : MonoBehaviour {
@@ -7,7 +9,7 @@ public class AllocateText : MonoBehaviour {
     private List<GameObject> booklist;
     private List<Object> textlist;
     private TextMesh title;
-    private Object property;
+    private FileInfo info;
     private string[][] propertyArr;
 
     // Use this for initialization
@@ -16,7 +18,7 @@ public class AllocateText : MonoBehaviour {
         textlist = new List<Object>();
         textlist.AddRange(Resources.LoadAll(("Texts"), typeof(TextAsset)));                                                 //list of texts, in "Resources/Texts"
         booklist = new List<GameObject>(GameObject.FindGameObjectsWithTag("Book"));                                         //list of books, GameObject
-        property = Resources.Load("property.txt", typeof(TextAsset));                                                       //property.txt
+        info = new FileInfo("property.txt");                                                                                //property.txt
         propertyArr = new string[textlist.Count][];                                                                         //2D array composed of text's name and its tag
 
         Debug.Log("Total Books: " + booklist.Count);
@@ -52,9 +54,56 @@ public class AllocateText : MonoBehaviour {
         {
             Debug.Log(i + " : " + booklist[i].gameObject.name + ", Position: " +booklist[i].gameObject.transform.position);
         }
-
+        GetProperty();
         Allocation();
 	}
+
+    void GetProperty()
+    {
+        StreamReader sr = info.OpenText();
+        string thisLine;
+        string[] splited;
+        char spliter = ':';
+        int reslt;
+        int idx = 0;
+        while (sr.Peek() > -1)
+        {
+            thisLine = sr.ReadLine();
+            splited = thisLine.Split(spliter);
+            reslt = IsNameOrTag(splited[0]);
+            if (reslt == 1)
+            {
+                propertyArr[idx][0] = splited[1];
+                if (sr.Peek() > -1)
+                {
+                    thisLine = sr.ReadLine();
+                    splited = thisLine.Split(spliter);
+                    reslt = IsNameOrTag(splited[0]);
+                    if (reslt == 2)
+                    {
+                        propertyArr[idx][1] = splited[1];
+                    }
+                }
+            }
+            idx++;
+        }
+    }
+
+    int IsNameOrTag(string str)
+    {
+        if(str.Contains("이름"))
+        {
+            return 1;
+        }
+        else if (str.Contains("태그"))
+        {
+            return 2;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     void Allocation()
     {
