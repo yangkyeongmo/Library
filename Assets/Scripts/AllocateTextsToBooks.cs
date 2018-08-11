@@ -49,12 +49,9 @@ public class AllocateTextsToBooks : MonoBehaviour {
     {
         //List to Fetch texts internally
         List<TextAsset> internalTexts = new List<TextAsset>();
+        internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
         //List to fetch texts externally
         List<TextAsset> externalTexts = new List<TextAsset>();
-        //List of internal and external texts, list to return
-        List<TextAsset> totalTexts = new List<TextAsset>();
-        //Load all text assets from "Resources/Texts"
-        internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
         foreach(string txtPath in System.IO.Directory.GetFiles(appPath + "/Resources/Text/"))
         {
             //Check directory just to be sure
@@ -68,7 +65,8 @@ public class AllocateTextsToBooks : MonoBehaviour {
                 print("UNWANTED SITUATION: " + txtPath + " doesn't exist!");
             }
         }
-        //Add internal and external texts to totalTexts list
+        //List of internal and external texts, list to return
+        List<TextAsset> totalTexts = new List<TextAsset>();
         totalTexts.AddRange(internalTexts);
         totalTexts.AddRange(externalTexts);
 
@@ -81,10 +79,8 @@ public class AllocateTextsToBooks : MonoBehaviour {
     {
         //List to return
         List<List<object>> allTextList = new List<List<object>>();
-        System.IO.StreamReader txtReader;
-        string thisline;
+        string content, thisline;
         List<object> newText;
-        //foreach TextAssets
         //if IDList doesn't exist
         if(!System.IO.Directory.Exists(idListPath))
         {
@@ -98,14 +94,13 @@ public class AllocateTextsToBooks : MonoBehaviour {
             newText[0] = txt;
             //Add title to second item
             newText[1] = txt.name;
-            txtReader = new System.IO.StreamReader(appPath + "/Resources/Texts/" + txt.name + ".txt");
-            //Read first line
-            thisline = txtReader.ReadLine();
+            content = txt.text;
+            thisline = GetFirstLineFromString(content);
             //If there's ID
             if (thisline.Contains("<ID>"))
             {
                 //Add ID to third item
-                newText[2] = thisline.Split(new[] { "<ID>" }, System.StringSplitOptions.None)[1].Split(new[] { "</ID>" }, System.StringSplitOptions.None)[0];
+                newText[2] = GetStringBetweenInfoFromString(thisline, "<ID>", "</ID>");
             }
             //If there's no ID
             else
@@ -113,30 +108,30 @@ public class AllocateTextsToBooks : MonoBehaviour {
                 //create ID
                 //write ID tag and ID in first line
             }
-            thisline = txtReader.ReadLine();
+            thisline = GetStringExceptFirstLine(thisline);
             while (thisline.Contains("<tag>"))
             {
                 //Add each tag to next item
-                newText.Add(thisline.Split(new[] { "<tag>" }, System.StringSplitOptions.None)[1].Split(new[] { "</tag>" }, System.StringSplitOptions.None)[0]);
+                newText.Add(GetStringBetweenInfoFromString(thisline, "<tag>", "</tag>"));
                 //Move to next line
-                thisline = txtReader.ReadLine();
+                thisline = GetStringExceptFirstLine(thisline);
             }
             //Add this list to textList
             allTextList.Add(newText);
         }//end of foreach
         return allTextList;
     }
+    //check firstline, if ID exists, write ID
     void CreateIDList(string path, List<TextAsset> textAssetList)
     {
         System.IO.StreamWriter sWriter = new System.IO.StreamWriter(path);
         System.IO.File.CreateText(path);
         string content, id;
-        //check firstline, if ID exists, write ID
         foreach(TextAsset txt in textAssetList)
         {
             content = txt.text;
             //check first line
-            id = GetIDFromString(GetFirstLineFromString(content));
+            id = GetStringBetweenInfoFromString(GetFirstLineFromString(content), "<ID>", "</ID>");
             if(id != null)
             {
                 sWriter.WriteLine(id);
@@ -148,11 +143,15 @@ public class AllocateTextsToBooks : MonoBehaviour {
         int index = content.IndexOfAny(new[] { '\r', '\n' });
         return index == 1 ? content : content.Substring(0, index);
     }
-    string GetIDFromString(string content)
+    string GetStringBetweenInfoFromString(string content, string info1, string info2)
     {
-        int index1 = content.IndexOf("<ID>");
-        int index2 = content.IndexOf("</ID>");
+        int index1 = content.IndexOf(info1);
+        int index2 = content.IndexOf(info2);
         return (index1 == -1 || index2 == -1) ? null : content.Substring(index1, index2 - index1);
+    }
+    string GetStringExceptFirstLine(string content)
+    {
+        return content.Split(new[] { '\r', '\n' })[1];
     }
 	
 	// Update is called once per frame
