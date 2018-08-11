@@ -8,7 +8,7 @@ using UnityEditor;
 */
 
 public class AllocateTextsToBooks : MonoBehaviour {
-    private string appPath = Application.dataPath;
+    private string appPath, idListPath;
     private string textRefPath;
     private List<TextAsset> textassetList = new List<TextAsset>();
     private List<List<object>> textList;
@@ -20,6 +20,8 @@ public class AllocateTextsToBooks : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        appPath = Application.dataPath;
+        idListPath = appPath + "/Resources/References/idlist.txt";
         //Set text reference file's path
         textRefPath = appPath + "/Resources/References/TextReference.txt";
         //If text reference file doesn't exist
@@ -83,6 +85,11 @@ public class AllocateTextsToBooks : MonoBehaviour {
         string thisline;
         List<object> newText;
         //foreach TextAssets
+        //if IDList doesn't exist
+        if(!System.IO.Directory.Exists(idListPath))
+        {
+            CreateIDList(idListPath, textassetList);
+        }
         foreach (TextAsset txt in textassetList)
         {
             //Create new list of objects
@@ -92,8 +99,9 @@ public class AllocateTextsToBooks : MonoBehaviour {
             //Add title to second item
             newText[1] = txt.name;
             txtReader = new System.IO.StreamReader(appPath + "/Resources/Texts/" + txt.name + ".txt");
-            //If there's ID
+            //Read first line
             thisline = txtReader.ReadLine();
+            //If there's ID
             if (thisline.Contains("<ID>"))
             {
                 //Add ID to third item
@@ -117,6 +125,34 @@ public class AllocateTextsToBooks : MonoBehaviour {
             allTextList.Add(newText);
         }//end of foreach
         return allTextList;
+    }
+    void CreateIDList(string path, List<TextAsset> textAssetList)
+    {
+        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(path);
+        System.IO.File.CreateText(path);
+        string content, id;
+        //check firstline, if ID exists, write ID
+        foreach(TextAsset txt in textAssetList)
+        {
+            content = txt.text;
+            //check first line
+            id = GetIDFromString(GetFirstLineFromString(content));
+            if(id != null)
+            {
+                sWriter.WriteLine(id);
+            }
+        }
+    }
+    string GetFirstLineFromString(string content)
+    {
+        int index = content.IndexOfAny(new[] { '\r', '\n' });
+        return index == 1 ? content : content.Substring(0, index);
+    }
+    string GetIDFromString(string content)
+    {
+        int index1 = content.IndexOf("<ID>");
+        int index2 = content.IndexOf("</ID>");
+        return (index1 == -1 || index2 == -1) ? null : content.Substring(index1, index2 - index1);
     }
 	
 	// Update is called once per frame
