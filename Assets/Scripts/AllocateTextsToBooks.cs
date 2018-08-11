@@ -86,6 +86,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
         {
             CreateIDList(idListPath, textassetList);
         }
+        //make list of ID
         List<string> idList = new List<string>();
         content = System.IO.File.ReadAllText(idListPath);
         thisline = GetFirstLineFromString(content);
@@ -94,6 +95,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
             idList.Add(thisline);
             thisline = GetFirstLineFromString(GetStringExceptFirstLine(content));
         }
+        //foreach textasset
         foreach (TextAsset txt in textassetList)
         {
             //Create new list of objects
@@ -115,6 +117,8 @@ public class AllocateTextsToBooks : MonoBehaviour {
             {
                 //create ID
                 //write ID tag and ID in first line
+                newText[2] = CreateID(idList);
+                AddIDtoIDList((string)newText[2]);
             }
             thisline = GetStringExceptFirstLine(thisline);
             while (thisline.Contains("<tag>"))
@@ -160,6 +164,36 @@ public class AllocateTextsToBooks : MonoBehaviour {
     string GetStringExceptFirstLine(string content)
     {
         return content.Split(new[] { '\r', '\n' })[1];
+    }
+    string CreateID(List<string> idList)
+    {
+        string id = Random.Range(0, 10000).ToString();
+        bool notOverlapping = false;
+        while (!notOverlapping)
+        {
+            foreach(string existingID in idList)
+            {
+                if (existingID == id)
+                {
+                    break;
+                }
+                if (existingID == idList[idList.Capacity - 1])
+                {
+                    notOverlapping = true;
+                }
+            }
+        }
+        return id;
+    }
+    void AddIDtoIDList(string id)
+    {
+        if (!System.IO.Directory.Exists(idListPath))
+        {
+            print("No ID LIST");
+            CreateIDList(idListPath, textassetList);
+        }
+        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(idListPath);
+        sWriter.WriteLine(id);
     }
 	
 	// Update is called once per frame
