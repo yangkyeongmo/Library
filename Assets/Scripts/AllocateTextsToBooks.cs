@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 
@@ -13,10 +14,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     private List<TextAsset> textassetList = new List<TextAsset>();
     private List<List<object>> textList;
     private List<List<object>> tagList;
-    private List<int> IDList = new List<int>();
-    //Add List of Books
-
-    System.IO.StreamReader textRef;
+    private List<string> IDList = new List<string>();
 
 	// Use this for initialization
 	void Start () {
@@ -35,12 +33,13 @@ public class AllocateTextsToBooks : MonoBehaviour {
             //Fetch all infos in textassets
             textList = FetchTextInfos();
             //Write text infos
+            WriteTextInfo(textList, textRefPath);
         }
         //If text reference file exists
         else
         {
             //Read and save infos from text reference file
-
+            textList = ReadTextInfo(textRefPath);
         }
 	}
 
@@ -87,7 +86,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
             CreateIDList(idListPath, textassetList);
         }
         //make list of ID
-        List<string> idList = GetListOfID(idListPath);
+        IDList = GetListOfID(idListPath);
         //foreach textasset
         //Add TextAsset to first, title to second, ID to third, tags to last
         foreach (TextAsset txt in textassetList)
@@ -99,7 +98,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
             //Add infos
             newText[0] = txt;
             newText[1] = txt.name;
-            newText[2] = GetIDFromThisLine(GetFirstLineFromString(content), idList); AddStringAtFirstLine((string)newText[2], txtPath);
+            newText[2] = GetIDFromThisLine(GetFirstLineFromString(content), IDList); AddStringAtFirstLine((string)newText[2], txtPath);
 
             thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
             //Add each tag to next item
@@ -222,6 +221,44 @@ public class AllocateTextsToBooks : MonoBehaviour {
         }
         System.IO.StreamWriter sWriter = new System.IO.StreamWriter(idListPath);
         sWriter.WriteLine(id);
+        IDList.Add(id);
+    }
+
+    void WriteTextInfo(List<List<object>> textList, string path)
+    {
+        StreamWriter sWriter = new StreamWriter(path);
+        foreach(List<object> txtInfo in textList)
+        {
+            sWriter.Write("<Path>" + AssetDatabase.GetAssetPath((TextAsset)txtInfo[0]) + "</Path> <Title>" + txtInfo[1] + "</Title> <ID>" + txtInfo[2] + "</ID>");
+            for(int i=3; i<txtInfo.Count; i++)
+            {
+                sWriter.Write("<tag" + (i - 3) + ">" + txtInfo[i] + "</tag" + (i-3) + ">");
+            }
+            sWriter.WriteLine();
+        }
+    }
+
+    List<List<object>> ReadTextInfo(string path)
+    {
+        StreamReader sReader = new StreamReader(path);
+        string line = sReader.ReadLine();
+        List<List<object>> infoList = new List<List<object>>();
+        int i = 0;
+        while (!sReader.EndOfStream)
+        {
+            infoList[i].Add(AssetDatabase.LoadAssetAtPath(GetStringBetweenInfoFromString(line, "<Path>", "</Path>"),typeof(TextAsset)));
+            infoList[i].Add((string)GetStringBetweenInfoFromString(line, "<Title>", "</Title>"));
+            infoList[i].Add((string)GetStringBetweenInfoFromString(line, "<ID>", "</ID>"));
+            line = line.Split(new[] { "</ID>" }, System.StringSplitOptions.None)[1];
+            while (line.Contains("<tag"))
+            {
+                infoList[i].Add(GetStringBetweenInfoFromString(line, "<tag", "</tag").Split(new[] { '>' })[1]);
+                line = line.Split(new[] { "</ID>" }, System.StringSplitOptions.None)[1];
+            }
+            line = sReader.ReadLine();
+            i++;
+        }
+        return infoList;
     }
 	
 	// Update is called once per frame
