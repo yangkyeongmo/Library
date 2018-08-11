@@ -19,14 +19,19 @@ public class AllocateTextsToBooks : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         appPath = Application.dataPath;
-        idListPath = appPath + "/Resources/References/idlist.txt";
+        idListPath = appPath + "\\Resources\\References\\idlist.txt";
         //Set text reference file's path
-        textRefPath = appPath + "/Resources/References/TextReference.txt";
+        textRefPath = appPath + "\\Resources\\References\\TextReference.txt";
         //If text reference file doesn't exist
         if (!File.Exists(textRefPath))
         {
+            DirectoryInfo dirInfo = new DirectoryInfo(appPath + "\\Resources\\References\\");
+            if (!dirInfo.Exists)
+            {
+                dirInfo.Create();
+            }
             //Create text reference file
-            File.CreateText(textRefPath);
+            File.Create(textRefPath);
             //Write text infos in text reference file
             //Fetch textassets internally and externally
             textassetList = FetchTextAssets();
@@ -51,7 +56,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
         internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
         //List to fetch texts externally
         List<TextAsset> externalTexts = new List<TextAsset>();
-        foreach(string txtPath in Directory.GetFiles(appPath + "/Resources/Text/"))
+        foreach(string txtPath in Directory.GetFiles("\\Assets\\Resources\\Text\\"))
         {
             //Check directory just to be sure
             if (File.Exists(txtPath))
