@@ -87,46 +87,26 @@ public class AllocateTextsToBooks : MonoBehaviour {
             CreateIDList(idListPath, textassetList);
         }
         //make list of ID
-        List<string> idList = new List<string>();
-        content = System.IO.File.ReadAllText(idListPath);
-        thisline = GetFirstLineFromString(content);
-        while(thisline != null)
-        {
-            idList.Add(thisline);
-            thisline = GetFirstLineFromString(GetStringExceptFirstLine(content));
-        }
+        List<string> idList = GetListOfID(idListPath);
         //foreach textasset
+        //Add TextAsset to first, title to second, ID to third, tags to last
         foreach (TextAsset txt in textassetList)
         {
+            content = txt.text;
             //Create new list of objects
             newText = new List<object>();
-            //Add textasset to first item
+            //Add infos
             newText[0] = txt;
-            //Add title to second item
             newText[1] = txt.name;
-            content = txt.text;
-            thisline = GetFirstLineFromString(content);
-            //If there's ID
-            if (thisline.Contains("<ID>"))
-            {
-                //Add ID to third item
-                newText[2] = GetStringBetweenInfoFromString(thisline, "<ID>", "</ID>");
-            }
-            //If there's no ID
-            else
-            {
-                //create ID
-                //write ID tag and ID in first line
-                newText[2] = CreateID(idList);
-                AddIDtoIDList((string)newText[2]);
-            }
-            thisline = GetStringExceptFirstLine(thisline);
+            newText[2] = GetIDFromThisLine(GetFirstLineFromString(content), idList);
+
+            thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
+            //Add each tag to next item
             while (thisline.Contains("<tag>"))
             {
-                //Add each tag to next item
                 newText.Add(GetStringBetweenInfoFromString(thisline, "<tag>", "</tag>"));
                 //Move to next line
-                thisline = GetStringExceptFirstLine(thisline);
+                thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
             }
             //Add this list to textList
             allTextList.Add(newText);
@@ -150,6 +130,18 @@ public class AllocateTextsToBooks : MonoBehaviour {
             }
         }
     }
+    List<string> GetListOfID(string path)
+    {
+        List<string> idList = new List<string>();
+        string content = System.IO.File.ReadAllText(path);
+        string thisline = GetFirstLineFromString(content);
+        while (thisline != null)
+        {
+            idList.Add(thisline);
+            thisline = GetFirstLineFromString(GetStringExceptFirstLine(content));
+        }
+        return idList;
+    }
     string GetFirstLineFromString(string content)
     {
         int index = content.IndexOfAny(new[] { '\r', '\n' });
@@ -161,9 +153,32 @@ public class AllocateTextsToBooks : MonoBehaviour {
         int index2 = content.IndexOf(info2);
         return (index1 == -1 || index2 == -1) ? null : content.Substring(index1, index2 - index1);
     }
+    string GetIDFromThisLine(string line, List<string> idList)
+    {
+        string id;
+        //If there's ID
+        if (line.Contains("<ID>"))
+        {
+            //Add ID to third item
+            id = GetStringBetweenInfoFromString(line, "<ID>", "</ID>");
+        }
+        //If there's no ID
+        else
+        {
+            //create ID
+            id = CreateID(idList);
+            AddIDtoIDList(id);
+        }
+        return id;
+    }
     string GetStringExceptFirstLine(string content)
     {
         return content.Split(new[] { '\r', '\n' })[1];
+    }
+    string GetStringExceptFirstLine(ref string content)
+    {
+        content = content.Split(new[] { '\r', '\n' })[1];
+        return content;
     }
     string CreateID(List<string> idList)
     {
