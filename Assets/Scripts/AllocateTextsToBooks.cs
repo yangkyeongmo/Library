@@ -79,7 +79,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     {
         //List to return
         List<List<object>> allTextList = new List<List<object>>();
-        string content, thisline;
+        string content, thisline, txtPath;
         List<object> newText;
         //if IDList doesn't exist
         if(!System.IO.Directory.Exists(idListPath))
@@ -93,12 +93,13 @@ public class AllocateTextsToBooks : MonoBehaviour {
         foreach (TextAsset txt in textassetList)
         {
             content = txt.text;
+            txtPath = AssetDatabase.GetAssetPath(txt);
             //Create new list of objects
             newText = new List<object>();
             //Add infos
             newText[0] = txt;
             newText[1] = txt.name;
-            newText[2] = GetIDFromThisLine(GetFirstLineFromString(content), idList);
+            newText[2] = GetIDFromThisLine(GetFirstLineFromString(content), idList); AddStringAtFirstLine((string)newText[2], txtPath);
 
             thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
             //Add each tag to next item
@@ -170,6 +171,18 @@ public class AllocateTextsToBooks : MonoBehaviour {
             AddIDtoIDList(id);
         }
         return id;
+    }
+    void AddStringAtFirstLine(string addedLine, string originalPath)
+    {
+        string tempFile = System.IO.Path.GetTempFileName();
+        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(tempFile);
+        System.IO.StreamReader sReader = new System.IO.StreamReader(originalPath);
+        sWriter.WriteLine(addedLine);
+        while (!sReader.EndOfStream)
+        {
+            sWriter.WriteLine(sReader.ReadLine());
+        }
+        System.IO.File.Copy(tempFile, originalPath, true);
     }
     string GetStringExceptFirstLine(string content)
     {
