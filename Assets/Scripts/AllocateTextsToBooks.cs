@@ -86,6 +86,14 @@ public class AllocateTextsToBooks : MonoBehaviour {
         {
             CreateIDList(idListPath, textassetList);
         }
+        List<string> idList = new List<string>();
+        content = System.IO.File.ReadAllText(idListPath);
+        thisline = GetFirstLineFromString(content);
+        while(thisline != null)
+        {
+            idList.Add(thisline);
+            thisline = GetFirstLineFromString(GetStringExceptFirstLine(content));
+        }
         foreach (TextAsset txt in textassetList)
         {
             //Create new list of objects
@@ -141,7 +149,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     string GetFirstLineFromString(string content)
     {
         int index = content.IndexOfAny(new[] { '\r', '\n' });
-        return index == 1 ? content : content.Substring(0, index);
+        return index == -1 ? content : content.Substring(0, index);
     }
     string GetStringBetweenInfoFromString(string content, string info1, string info2)
     {
