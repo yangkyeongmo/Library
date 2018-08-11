@@ -23,10 +23,10 @@ public class AllocateTextsToBooks : MonoBehaviour {
         //Set text reference file's path
         textRefPath = appPath + "/Resources/References/TextReference.txt";
         //If text reference file doesn't exist
-        if (!System.IO.File.Exists(textRefPath))
+        if (!File.Exists(textRefPath))
         {
             //Create text reference file
-            System.IO.File.CreateText(textRefPath);
+            File.CreateText(textRefPath);
             //Write text infos in text reference file
             //Fetch textassets internally and externally
             textassetList = FetchTextAssets();
@@ -51,10 +51,10 @@ public class AllocateTextsToBooks : MonoBehaviour {
         internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
         //List to fetch texts externally
         List<TextAsset> externalTexts = new List<TextAsset>();
-        foreach(string txtPath in System.IO.Directory.GetFiles(appPath + "/Resources/Text/"))
+        foreach(string txtPath in Directory.GetFiles(appPath + "/Resources/Text/"))
         {
             //Check directory just to be sure
-            if (System.IO.File.Exists(txtPath))
+            if (File.Exists(txtPath))
             {
                 //Add each texts
                 externalTexts.Add((TextAsset)AssetDatabase.LoadAssetAtPath(txtPath, typeof(TextAsset)));
@@ -81,7 +81,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
         string content, thisline, txtPath;
         List<object> newText;
         //if IDList doesn't exist
-        if(!System.IO.Directory.Exists(idListPath))
+        if(!Directory.Exists(idListPath))
         {
             CreateIDList(idListPath, textassetList);
         }
@@ -116,8 +116,8 @@ public class AllocateTextsToBooks : MonoBehaviour {
     //check firstline, if ID exists, write ID
     void CreateIDList(string path, List<TextAsset> textAssetList)
     {
-        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(path);
-        System.IO.File.CreateText(path);
+        StreamWriter sWriter = new StreamWriter(path);
+        File.CreateText(path);
         string content, id;
         foreach(TextAsset txt in textAssetList)
         {
@@ -133,7 +133,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     List<string> GetListOfID(string path)
     {
         List<string> idList = new List<string>();
-        string content = System.IO.File.ReadAllText(path);
+        string content = File.ReadAllText(path);
         string thisline = GetFirstLineFromString(content);
         while (thisline != null)
         {
@@ -173,15 +173,15 @@ public class AllocateTextsToBooks : MonoBehaviour {
     }
     void AddStringAtFirstLine(string addedLine, string originalPath)
     {
-        string tempFile = System.IO.Path.GetTempFileName();
-        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(tempFile);
-        System.IO.StreamReader sReader = new System.IO.StreamReader(originalPath);
+        string tempFile = Path.GetTempFileName();
+        StreamWriter sWriter = new StreamWriter(tempFile);
+        StreamReader sReader = new StreamReader(originalPath);
         sWriter.WriteLine(addedLine);
         while (!sReader.EndOfStream)
         {
             sWriter.WriteLine(sReader.ReadLine());
         }
-        System.IO.File.Copy(tempFile, originalPath, true);
+        File.Copy(tempFile, originalPath, true);
     }
     string GetStringExceptFirstLine(string content)
     {
@@ -214,12 +214,12 @@ public class AllocateTextsToBooks : MonoBehaviour {
     }
     void AddIDtoIDList(string id)
     {
-        if (!System.IO.Directory.Exists(idListPath))
+        if (!Directory.Exists(idListPath))
         {
             print("No ID LIST");
             CreateIDList(idListPath, textassetList);
         }
-        System.IO.StreamWriter sWriter = new System.IO.StreamWriter(idListPath);
+        StreamWriter sWriter = new StreamWriter(idListPath);
         sWriter.WriteLine(id);
         IDList.Add(id);
     }
