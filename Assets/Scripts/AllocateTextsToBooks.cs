@@ -53,7 +53,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     {
         //List to Fetch texts internally
         List<TextAsset> internalTexts = new List<TextAsset>();
-        internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
+        internalTexts.AddRange(Resources.LoadAll<TextAsset>("Texts"));
         //List to fetch texts externally
         List<TextAsset> externalTexts = new List<TextAsset>();
         if(Directory.Exists(appPath + "\\Resources\\Text\\"))
