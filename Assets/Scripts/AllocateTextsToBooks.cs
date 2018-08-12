@@ -56,17 +56,20 @@ public class AllocateTextsToBooks : MonoBehaviour {
         internalTexts.AddRange(Resources.LoadAll<TextAsset>("/Texts"));
         //List to fetch texts externally
         List<TextAsset> externalTexts = new List<TextAsset>();
-        foreach(string txtPath in Directory.GetFiles("\\Assets\\Resources\\Text\\"))
+        if(Directory.Exists(appPath + "\\Resources\\Text\\"))
         {
-            //Check directory just to be sure
-            if (File.Exists(txtPath))
+            foreach (string txtPath in Directory.GetFiles("\\Resources\\Text\\"))
             {
-                //Add each texts
-                externalTexts.Add((TextAsset)AssetDatabase.LoadAssetAtPath(txtPath, typeof(TextAsset)));
-            }
-            else
-            {
-                print("UNWANTED SITUATION: " + txtPath + " doesn't exist!");
+                //Check directory just to be sure
+                if (File.Exists(txtPath))
+                {
+                    //Add each texts
+                    externalTexts.Add((TextAsset)AssetDatabase.LoadAssetAtPath(txtPath, typeof(TextAsset)));
+                }
+                else
+                {
+                    print("UNWANTED SITUATION: " + txtPath + " doesn't exist!");
+                }
             }
         }
         //List of internal and external texts, list to return
