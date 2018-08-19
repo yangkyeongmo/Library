@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 using UnityEngine;
+using UnityEditor;
 
 public class AllocateText : MonoBehaviour {
 
@@ -15,8 +16,8 @@ public class AllocateText : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        textlist = new List<TextAsset>();
-        textlist.AddRange((TextAsset[])Resources.LoadAll(("Texts")));                                                       //list of texts, in "Resources/Texts"
+        textlist = FetchTextAssetFromReferenceText(GetComponent<MakeReferenceTexts>().GetTextReferencePath());
+        //textlist.AddRange((TextAsset[])Resources.LoadAll(("Texts")));                                                       //list of texts, in "Resources/Texts"
         booklist = new List<GameObject>(GameObject.FindGameObjectsWithTag("Book"));                                         //list of books, GameObject
         info = new FileInfo("property.txt");                                                                                //property.txt
         propertyArr = new string[textlist.Count][];                                                                         //2D array composed of text's name and its tag
@@ -32,31 +33,47 @@ public class AllocateText : MonoBehaviour {
             }
         }
 
+        SortBooksByPosition(booklist);
+        GetProperty();
+        Allocation();
+	}
+
+    List<TextAsset> FetchTextAssetFromReferenceText(string refTextPath)
+    {
+        List<TextAsset> allTextAssets = new List<TextAsset>();
+        using(StreamReader sr = new StreamReader(refTextPath))
+        {
+            string thisLine;
+            string taPath;
+            while (!sr.EndOfStream)
+            {
+                thisLine = sr.ReadLine();
+                taPath = ProcessText.GetStringBetweenInfoFromString(thisLine, "<Path>", "</Path>");
+                allTextAssets.Add((TextAsset)AssetDatabase.LoadAssetAtPath(taPath, typeof(TextAsset)));
+            }
+        }
+        return allTextAssets;
+    }
+
+    private void SortBooksByPosition(List<GameObject> booklist)
+    {
         //Sort books in list
         //least x position comes first, then z.
         //if same x and z position, least y position comes first
-        booklist.Sort(delegate(GameObject A, GameObject B)
+        booklist.Sort(delegate (GameObject A, GameObject B)
         {
             if (A.transform.position.x > B.transform.position.x) return 1;
-            else if(A.transform.position.x < B.transform.position.x) return -1;
+            else if (A.transform.position.x < B.transform.position.x) return -1;
             if (A.transform.position.z > B.transform.position.z) return 1;
             else if (A.transform.position.z < B.transform.position.z) return -1;
-            if(A.transform.position.x == B.transform.position.x && A.transform.position.z == B.transform.position.z)
+            if (A.transform.position.x == B.transform.position.x && A.transform.position.z == B.transform.position.z)
             {
                 if (A.transform.position.y > B.transform.position.y) return 1;
                 else if (A.transform.position.y < B.transform.position.y) return -1;
             }
             return 0;
         });
-
-
-        for(int i = 0; i < booklist.Count; i++)
-        {
-            Debug.Log(i + " : " + booklist[i].gameObject.name + ", Position: " +booklist[i].gameObject.transform.position);
-        }
-        GetProperty();
-        Allocation();
-	}
+    }
 
     void GetProperty()
     {
