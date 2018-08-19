@@ -1,4 +1,5 @@
-﻿상상1.
+<ID>7208</ID>
+상상1.
 
 지능적 자동 정보 검색 및 선택(intelligent automatic information search & selection, IAISS)
 
