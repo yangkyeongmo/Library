@@ -99,8 +99,11 @@ public class AllocateTextsToBooks : MonoBehaviour {
             newText.Add(txt);
             newText.Add(txt.name);
             newText.Add(GetIDFromThisLine(GetFirstLineFromString(content), IDList));
-            AddStringAtFirstLine("<ID>" + (string)newText[2] + "</ID>", txtPath);
-
+            if (!GetFirstLineFromString(content).Contains("<ID>"))
+            {
+                AddStringAtFirstLine("<ID>" + (string)newText[2] + "</ID>", txtPath);
+            }
+            
             thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
             //Add each tag to next item
             while (thisline.Contains("<tag>"))
@@ -121,19 +124,16 @@ public class AllocateTextsToBooks : MonoBehaviour {
         {
             File.Create(idListPath).Close();
         }
-
-        using(StreamWriter sWriter = new StreamWriter(idListPath))
+        
+        string content, id;
+        foreach (TextAsset txt in textAssetList)
         {
-            string content, id;
-            foreach (TextAsset txt in textAssetList)
+            content = txt.text;
+            //check first line
+            id = GetStringBetweenInfoFromString(GetFirstLineFromString(content), "<ID>", "</ID>");
+            if (id != null)
             {
-                content = txt.text;
-                //check first line
-                id = GetStringBetweenInfoFromString(GetFirstLineFromString(content), "<ID>", "</ID>");
-                if (id != null)
-                {
-                    sWriter.WriteLine(id);
-                }
+                AddStringAtLastLine(id, idListPath);
             }
         }
     }
@@ -150,7 +150,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
         while (thisline != null && thisline != "")
         {
             idList.Add(thisline);
-            thisline = GetFirstLineFromString(GetStringExceptFirstLine(content));
+            thisline = GetFirstLineFromString(GetStringExceptFirstLine(ref content));
         }
         return idList;
     }
@@ -161,7 +161,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     }
     string GetStringBetweenInfoFromString(string content, string info1, string info2)
     {
-        int index1 = content.IndexOf(info1[info1.Length-1]);
+        int index1 = content.IndexOf(info1[info1.Length - 1]) + 1;
         int index2 = content.IndexOf(info2);
         return (index1 == -1 || index2 == -1) ? null : content.Substring(index1, index2 - index1);
     }
@@ -187,7 +187,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
     {
         string tempFile = Path.GetTempFileName();
         string fullContent = File.ReadAllText(originalPath);
-        string thisLine = GetFirstLineFromString(fullContent);
+        string thisLine;
         using (StreamWriter sWriter = new StreamWriter(tempFile))
         using (StreamReader sReader = new StreamReader(originalPath))
         {
@@ -197,6 +197,23 @@ public class AllocateTextsToBooks : MonoBehaviour {
                 thisLine = sReader.ReadLine();
                 sWriter.WriteLine(thisLine);
             }
+        }
+        File.Copy(tempFile, originalPath, true);
+    }
+    void AddStringAtLastLine(string addedLine, string originalPath)
+    {
+        string tempFile = Path.GetTempFileName();
+        string fullContent = File.ReadAllText(originalPath);
+        string thisLine;
+        using (StreamWriter sWriter = new StreamWriter(tempFile))
+        using (StreamReader sReader = new StreamReader(originalPath))
+        {
+            while (!sReader.EndOfStream)
+            {
+                thisLine = sReader.ReadLine();
+                sWriter.WriteLine(thisLine);
+            }
+            sWriter.WriteLine(addedLine);
         }
         File.Copy(tempFile, originalPath, true);
     }
@@ -259,10 +276,7 @@ public class AllocateTextsToBooks : MonoBehaviour {
             print("No ID LIST");
             CreateIDList(idListPath, textassetList);
         }
-        using(StreamWriter sWriter = new StreamWriter(idListPath))
-        {
-            sWriter.WriteLine(id);
-        }
+        AddStringAtLastLine(id, idListPath);
         IDList.Add(id);
     }
 
